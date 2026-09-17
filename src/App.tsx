@@ -27,10 +27,12 @@ import Complaints from "./features/buyer/Complaints";
 import Favorites from "./features/buyer/Favorites";
 import BuyerNotifications from "./features/buyer/BuyerNotifications";
 import BuyerProfile from "./features/buyer/BuyerProfile";
+import FarmersMap from "./features/buyer/FarmersMap";
 
 import AdminDashboard from "./features/admin/AdminDashboard";
 import LoginPage from "./features/auth/LoginPage";
 import RegisterPage from "./features/auth/RegisterPage";
+import TermsPage from "./features/TermsPage";
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const authenticated = localStorage.getItem("technova-authenticated") === "true";
@@ -43,6 +45,7 @@ function App() {
       <Route path="/" element={<LoginPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
+      <Route path="/terms" element={<TermsPage />} />
       <Route
         path="/roles"
         element={
@@ -66,6 +69,7 @@ function App() {
       <Route path="/buyer" element={<ProtectedRoute><BuyerLayout /></ProtectedRoute>}>
         <Route index element={<BuyerDashboard />} />
         <Route path="marketplace" element={<Marketplace />} />
+        <Route path="farmers-map" element={<FarmersMap />} />
         <Route path="marketplace/:productId" element={<ProductDetails />} />
         <Route path="marketplace/farmer/:farmerId" element={<FarmerDetails />} />
         <Route path="requests" element={<MyBuyRequests />} />

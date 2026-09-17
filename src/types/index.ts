@@ -15,6 +15,8 @@ export interface User {
 
 export interface Farmer extends User {
   role: "farmer";
+  latitude: number;
+  longitude: number;
   farmName: string;
   yearsFarming: number;
   farmingMethod: string;
@@ -27,6 +29,7 @@ export interface Farmer extends User {
 export interface Buyer extends User {
   role: "buyer";
   businessName: string;
+  businessSize: "អាជីវកម្មតូច" | "អាជីវកម្មមធ្យម";
   businessType: "Restaurant" | "Hotel" | "Grocery Store" | "Market" | "Food Business" | "Individual Business";
 }
 
@@ -107,8 +110,10 @@ export interface BuyRequest {
   product: string;
   quantityKg: number;
   deliveryDate: string;
+  supplyWindow?: string;
   location: string;
   quality: QualityGrade | "Any Grade";
+  qualityRequirements?: string;
   targetPrice: number;
   status: BuyRequestStatus;
   responses: FarmerResponse[];

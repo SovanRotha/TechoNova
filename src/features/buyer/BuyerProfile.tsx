@@ -17,6 +17,7 @@ const BuyerProfile: React.FC = () => {
 
       <div className="bg-white border border-soil-100 rounded-buyer divide-y divide-soil-100">
         <Row label="ប្រភេទអាជីវកម្ម" value={b.businessType} />
+        <Row label="ទំហំអាជីវកម្ម" value={b.businessSize} />
         <Row label="ទីតាំង" value={b.location} />
       </div>
     </div>

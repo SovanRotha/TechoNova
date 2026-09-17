@@ -6,6 +6,7 @@ import { useAppData, currentBuyer } from "../../lib/store";
 import type { BuyRequest, QualityGrade } from "../../types";
 
 const qualityOptions: (QualityGrade | "Any Grade")[] = ["A", "B", "C", "Any Grade"];
+const cropOptions = ["ត្រសក់", "ត្រប់", "ម្ទេស", "សណ្ដែកគួរ", "បន្លែស្លឹក", "ចេក"];
 
 const CreateBuyRequest: React.FC = () => {
   const navigate = useNavigate();
@@ -14,8 +15,10 @@ const CreateBuyRequest: React.FC = () => {
   const [product, setProduct] = useState("");
   const [quantity, setQuantity] = useState("");
   const [deliveryDate, setDeliveryDate] = useState("");
+  const [supplyWindow, setSupplyWindow] = useState("ក្នុងរយៈពេល ១ ថ្ងៃ");
   const [location, setLocation] = useState(currentBuyer.location);
   const [quality, setQuality] = useState<QualityGrade | "Any Grade">("A");
+  const [qualityRequirements, setQualityRequirements] = useState("");
   const [targetPrice, setTargetPrice] = useState("");
   const totalSteps = 7;
 
@@ -29,8 +32,10 @@ const CreateBuyRequest: React.FC = () => {
       product,
       quantityKg: Number(quantity) || 0,
       deliveryDate,
+      supplyWindow,
       location,
       quality,
+      qualityRequirements,
       targetPrice: Number(targetPrice) || 0,
       status: "Open",
       responses: [],
@@ -76,12 +81,16 @@ const CreateBuyRequest: React.FC = () => {
     >
       {step === 1 && (
         <div className="space-y-4">
+          <div className="grid grid-cols-2 gap-3">
+            {cropOptions.map((crop) => (
+              <BigOption key={crop} label={crop} selected={product === crop} onClick={() => setProduct(crop)} />
+            ))}
+          </div>
           <input
-            autoFocus
             value={product}
             onChange={(e) => setProduct(e.target.value)}
-            placeholder="e.g. Tomatoes"
-            className="w-full px-4 py-3.5 border-2 border-soil-100 rounded-buyer outline-none focus:border-leaf-600 text-lg"
+            placeholder="ឬបញ្ចូលដំណាំផ្សេងទៀត"
+            className="w-full px-4 py-3.5 border-2 border-soil-100 rounded-buyer outline-none focus:border-leaf-600"
           />
           <PrimaryButton fullWidth disabled={!product} onClick={() => setStep(2)}>
             បន្ទាប់
@@ -117,6 +126,15 @@ const CreateBuyRequest: React.FC = () => {
             onChange={(e) => setDeliveryDate(e.target.value)}
             className="w-full px-4 py-3.5 border-2 border-soil-100 rounded-buyer outline-none focus:border-leaf-600 text-lg"
           />
+          <label className="block">
+            <span className="block text-sm text-ink/60 mb-2">រយៈពេលដែលអាចទទួលការផ្គត់ផ្គង់</span>
+            <select value={supplyWindow} onChange={(e) => setSupplyWindow(e.target.value)} className="w-full px-4 py-3.5 border-2 border-soil-100 rounded-buyer outline-none focus:border-leaf-600 bg-white">
+              <option>ក្នុងរយៈពេល ១ ថ្ងៃ</option>
+              <option>ក្នុងរយៈពេល ២ ថ្ងៃ</option>
+              <option>ក្នុងរយៈពេល ៣-៥ ថ្ងៃ</option>
+              <option>លើសពី ៥ ថ្ងៃ</option>
+            </select>
+          </label>
           <PrimaryButton fullWidth disabled={!deliveryDate} onClick={() => setStep(4)}>
             បន្ទាប់
           </PrimaryButton>
@@ -148,6 +166,13 @@ const CreateBuyRequest: React.FC = () => {
               onClick={() => setQuality(q)}
             />
           ))}
+          <textarea
+            value={qualityRequirements}
+            onChange={(e) => setQualityRequirements(e.target.value)}
+            placeholder="តម្រូវការបន្ថែម៖ ស្រស់ មិនខូច ទំហំសមរម្យ... (ជាជម្រើស)"
+            rows={3}
+            className="w-full px-4 py-3 border-2 border-soil-100 rounded-buyer outline-none focus:border-leaf-600 resize-none"
+          />
           <PrimaryButton fullWidth onClick={() => setStep(6)} className="mt-2">
             បន្ទាប់
           </PrimaryButton>
@@ -181,8 +206,11 @@ const CreateBuyRequest: React.FC = () => {
             <SummaryRow label="ផលិតផល" value={product} />
             <SummaryRow label="បរិមាណ" value={`${quantity} kg`} />
             <SummaryRow label="កាលបរិច្ឆេទដឹកជញ្ជូន" value={deliveryDate} />
+            <SummaryRow label="រយៈពេលផ្គត់ផ្គង់" value={supplyWindow} />
             <SummaryRow label="ទីតាំង" value={location} />
+            <SummaryRow label="ទំហំអាជីវកម្ម" value={currentBuyer.businessSize} />
             <SummaryRow label="គុណភាព" value={quality === "Any Grade" ? "គ្រប់កំរិត" : `កំរិត ${quality}`} />
+            {qualityRequirements && <SummaryRow label="តម្រូវការបន្ថែម" value={qualityRequirements} />}
             <SummaryRow label="តម្លៃគោលដៅ" value={`$${targetPrice}/kg`} />
           </div>
           <PrimaryButton fullWidth onClick={handlePost} className="mt-6">

@@ -8,7 +8,7 @@ const BuyerNotifications: React.FC = () => {
 
   return (
     <div>
-      <h1 className="font-display text-2xl mb-5">Notifications</h1>
+      <h1 className="font-display text-2xl mb-5">ការជូនដំណឹង</h1>
       <div className="space-y-2">
         {mine.map((n) => (
           <button

@@ -5,7 +5,9 @@ import { ArrowRight, FileUp, Leaf } from "lucide-react";
 const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
   const [nationalIdCard, setNationalIdCard] = useState<File | null>(null);
+  const [businessDocument, setBusinessDocument] = useState<File | null>(null);
   const [idCardError, setIdCardError] = useState("");
+  const [termsAccepted, setTermsAccepted] = useState(false);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -13,12 +15,19 @@ const RegisterPage: React.FC = () => {
       setIdCardError("សូមបញ្ចូលរូបថត ឬឯកសារអត្តសញ្ញាណប័ណ្ណជាតិ");
       return;
     }
+    if (!termsAccepted) return;
     const formData = new FormData(event.currentTarget);
     const nationalId = String(formData.get("nationalId") ?? "").trim();
     localStorage.setItem("technova-registration", JSON.stringify({
       name: formData.get("name"),
       email: formData.get("email"),
+      phone: formData.get("phone"),
       nationalId,
+      businessDocument: businessDocument ? {
+        name: businessDocument.name,
+        type: businessDocument.type,
+        size: businessDocument.size,
+      } : null,
       nationalIdCard: {
         name: nationalIdCard.name,
         type: nationalIdCard.type,
@@ -66,6 +75,17 @@ const RegisterPage: React.FC = () => {
           </label>
 
           <label className="block">
+            <span className="text-sm text-ink/60">លេខទូរស័ព្ទ</span>
+            <input
+              type="tel"
+              name="phone"
+              required
+              placeholder="០១២ ៣៤៥ ៦៧៨"
+              className="w-full mt-2 px-4 py-3 border border-soil-100 rounded-buyer outline-none focus:border-leaf-600"
+            />
+          </label>
+
+          <label className="block">
             <span className="text-sm text-ink/60">អ៊ីមែល</span>
             <input
               type="email"
@@ -73,6 +93,22 @@ const RegisterPage: React.FC = () => {
               placeholder="you@example.com"
               className="w-full mt-2 px-4 py-3 border border-soil-100 rounded-buyer outline-none focus:border-leaf-600"
             />
+          </label>
+
+          <label className="block">
+            <span className="text-sm text-ink/60">ប៉ាតង់ / អត្តសញ្ញាណម្ចាស់ / លិខិតចុះបញ្ជីអាជីវកម្ម <span className="text-ink/40">(ជាជម្រើស)</span></span>
+            <span className="flex items-center justify-center gap-2 w-full mt-2 px-4 py-4 border-2 border-dashed border-soil-200 rounded-buyer text-ink/60 cursor-pointer hover:border-leaf-600 hover:text-leaf-700 transition-colors">
+              <FileUp size={20} />
+              {businessDocument ? businessDocument.name : "ជ្រើសរើសឯកសារ"}
+              <input
+                type="file"
+                name="businessDocument"
+                accept="image/*,.pdf"
+                onChange={(event) => setBusinessDocument(event.target.files?.[0] ?? null)}
+                className="sr-only"
+              />
+            </span>
+            <span className="block text-xs text-ink/50 mt-1">អាចបញ្ចូលសម្រាប់អាជីវកម្ម ឬម្ចាស់ផលិតកម្មដែលមានឯកសារបញ្ជាក់</span>
           </label>
 
           <label className="block">
@@ -89,6 +125,18 @@ const RegisterPage: React.FC = () => {
               className="w-full mt-2 px-4 py-3 border border-soil-100 rounded-buyer outline-none focus:border-leaf-600"
             />
             <span className="block text-xs text-ink/50 mt-1">ត្រូវការសម្រាប់ការផ្ទៀងផ្ទាត់សុវត្ថិភាព</span>
+          </label>
+
+          <label className="flex items-start gap-3 text-sm text-ink/70">
+            <input
+              type="checkbox"
+              checked={termsAccepted}
+              onChange={(event) => setTermsAccepted(event.target.checked)}
+              className="mt-1 rounded border-soil-200"
+            />
+            <span>
+              ខ្ញុំបានអាន និងយល់ព្រមតាម <Link to="/terms" target="_blank" className="text-leaf-700 font-semibold">លក្ខខណ្ឌ និងដំណើរការដោះស្រាយវិវាទ</Link> របស់ AgriLink។
+            </span>
           </label>
 
           <label className="block">

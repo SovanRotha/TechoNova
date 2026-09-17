@@ -11,6 +11,7 @@ import {
   Bell,
   User,
   ArrowLeftRight,
+  MapPinned,
   Menu,
   X,
 } from "lucide-react";
@@ -19,6 +20,7 @@ import { useAppData } from "../lib/store";
 const navItems = [
   { to: "/buyer", label: "ផ្ទាំងគ្រប់គ្រង", icon: LayoutGrid, end: true },
   { to: "/buyer/marketplace", label: "ទីផ្សារ", icon: Search },
+  { to: "/buyer/farmers-map", label: "ផែនទីកសិករ", icon: MapPinned },
   { to: "/buyer/requests", label: "សំណើទិញ", icon: ClipboardList },
   { to: "/buyer/orders", label: "ការបញ្ជាទិញ", icon: ShoppingBag },
   { to: "/buyer/favorites", label: "ចំណូលចិត្ត", icon: Heart },
