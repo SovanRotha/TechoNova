@@ -7,6 +7,7 @@ export type VerificationStatus = "not_verified" | "ai_checked" | "inspector_veri
 export interface User {
   id: string;
   name: string;
+  nationalId?: string;
   role: Role;
   avatarInitials: string;
   location: string;

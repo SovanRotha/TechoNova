@@ -26,6 +26,22 @@ const emojiFor: Record<string, string> = {
   Other: "📦",
 };
 
+const categoryLabels: Record<string, string> = {
+  Vegetables: "បន្លែ",
+  Tomatoes: "ប៉េងប៉ោះ",
+  Cucumbers: "ត្រសក់",
+  Chili: "ម្ទេស",
+  Fruits: "ផ្លែឈើ",
+  Rice: "ស្រូវ",
+  Other: "ផ្សេងៗ",
+};
+
+const farmingMethodLabels: Record<string, string> = {
+  Organic: "សរីរាង្គ",
+  Traditional: "ប្រពៃណី",
+  Hydroponic: "ដាំដោយទឹក",
+};
+
 const SellProduct: React.FC = () => {
   const navigate = useNavigate();
   const { addProduct } = useAppData();
@@ -37,7 +53,7 @@ const SellProduct: React.FC = () => {
   const [price, setPrice] = useState("");
   const [harvestDate, setHarvestDate] = useState("");
   const [location, setLocation] = useState(currentFarmer.location);
-  const [method, setMethod] = useState(currentFarmer.farmingMethod);
+  const [method, setMethod] = useState(farmingMethodLabels[currentFarmer.farmingMethod] ?? currentFarmer.farmingMethod);
   const [description, setDescription] = useState("");
   const totalSteps = 5;
 
@@ -82,7 +98,7 @@ const SellProduct: React.FC = () => {
       <div className="max-w-xl mx-auto text-center pt-16">
         <CheckCircle2 size={64} className="text-leaf-600 mx-auto mb-5" />
         <h1 className="font-display text-3xl mb-2">ផលិតផលរបស់អ្នកត្រូវបានបញ្ជីដោយជោគជ័យ។</h1>
-        <p className="text-ink/60 mb-8">អ្នកទិញនៅជិតនេះអាចរកឃើញ និងស្នើសុំ {name || category} ខាងក្រោម។</p>
+        <p className="text-ink/60 mb-8">អ្នកទិញនៅជិតនេះអាចរកឃើញ និងស្នើសុំ {name || categoryLabels[category] || category} ខាងក្រោម។</p>
         <PrimaryButton fullWidth onClick={() => navigate("/farmer/products")}>
           មើលផលិតផលរបស់ខ្ញុំ
         </PrimaryButton>
@@ -113,7 +129,7 @@ const SellProduct: React.FC = () => {
           {productCategories.map((c) => (
             <BigOption
               key={c}
-              label={c}
+              label={categoryLabels[c] ?? c}
               emoji={emojiFor[c]}
               selected={category === c}
               onClick={() => setCategory(c)}
@@ -128,7 +144,7 @@ const SellProduct: React.FC = () => {
       {step === 2 && (
         <div className="space-y-5">
           <label className="block">
-            <span className="text-ink/60 text-sm">Quantity</span>
+            <span className="text-ink/60 text-sm">បរិមាណ</span>
             <div className="flex items-center mt-2 border-2 border-soil-100 rounded-farmer overflow-hidden focus-within:border-leaf-600">
               <input
                 type="number"
@@ -152,9 +168,9 @@ const SellProduct: React.FC = () => {
         <div className="space-y-4">
           <div className="aspect-video rounded-farmer bg-soil-50 border-2 border-dashed border-soil-200 flex items-center justify-center overflow-hidden">
             {photoAdded ? (
-              <img src={STOCK_PHOTOS[category] ?? STOCK_PHOTOS.Other} alt="Preview" className="w-full h-full object-cover" />
+              <img src={STOCK_PHOTOS[category] ?? STOCK_PHOTOS.Other} alt="រូបភាពមើលជាមុន" className="w-full h-full object-cover" />
             ) : (
-              <span className="text-ink/40 text-sm">No photo yet</span>
+              <span className="text-ink/40 text-sm">មិនទាន់មានរូបភាព</span>
             )}
           </div>
           <button
@@ -183,7 +199,7 @@ const SellProduct: React.FC = () => {
           <TextField label="ទីតាំង" value={location} onChange={setLocation} />
           <TextField label="វិធីធ្វើកសិដ្ឋាន" value={method} onChange={setMethod} />
           <label className="block">
-            <span className="text-ink/60 text-sm">ការពិពណ៌នា קצר</span>
+            <span className="text-ink/60 text-sm">ការពិពណ៌នាសង្ខេប</span>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -201,7 +217,7 @@ const SellProduct: React.FC = () => {
       {step === 5 && (
         <div>
           <div className="bg-white border border-soil-100 rounded-farmer divide-y divide-soil-100">
-            <SummaryRow label="ផលិតផល" value={name || category} />
+            <SummaryRow label="ផលិតផល" value={name || categoryLabels[category] || category} />
             <SummaryRow label="បរិមាណ" value={`${quantity} kg`} />
             <SummaryRow label="តម្លៃ" value={`$${price}/kg`} />
             <SummaryRow label="កាលបរិច្ឆេទច្រូត" value={harvestDate || "—"} />

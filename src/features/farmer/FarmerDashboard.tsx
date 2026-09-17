@@ -22,7 +22,7 @@ const FarmerDashboard: React.FC = () => {
       >
         <span className="text-4xl">🌱</span>
         <h2 className="font-display text-2xl mt-3">លក់ផលិតផល</h2>
-        <p className="text-white/75 text-sm mt-1">បញ្ជីអ្វីដែលអ្នកបានปลูกដោយចុចប៉ុណ្ណេះ</p>
+        <p className="text-white/75 text-sm mt-1">បញ្ជីអ្វីដែលអ្នកចង់បាន</p>
       </Link>
 
       <div className="grid grid-cols-2 gap-4">
