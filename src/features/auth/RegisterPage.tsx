@@ -20,7 +20,7 @@ const RegisterPage: React.FC = () => {
     const nationalId = String(formData.get("nationalId") ?? "").trim();
     localStorage.setItem("technova-registration", JSON.stringify({
       name: formData.get("name"),
-      email: formData.get("email"),
+      // email: formData.get("email"),
       phone: formData.get("phone"),
       nationalId,
       businessDocument: businessDocument ? {
@@ -84,7 +84,7 @@ const RegisterPage: React.FC = () => {
               className="w-full mt-2 px-4 py-3 border border-soil-100 rounded-buyer outline-none focus:border-leaf-600"
             />
           </label>
-
+{/* 
           <label className="block">
             <span className="text-sm text-ink/60">អ៊ីមែល</span>
             <input
@@ -93,7 +93,7 @@ const RegisterPage: React.FC = () => {
               placeholder="you@example.com"
               className="w-full mt-2 px-4 py-3 border border-soil-100 rounded-buyer outline-none focus:border-leaf-600"
             />
-          </label>
+          </label> */}
 
           <label className="block">
             <span className="text-sm text-ink/60">ប៉ាតង់ / អត្តសញ្ញាណម្ចាស់ / លិខិតចុះបញ្ជីអាជីវកម្ម <span className="text-ink/40">(ជាជម្រើស)</span></span>

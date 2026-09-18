@@ -26,10 +26,12 @@ const LoginPage: React.FC = () => {
 
         <form className="space-y-4" onSubmit={handleSubmit}>
           <label className="block">
-            <span className="text-sm text-ink/60">អ៊ីមែល</span>
+            <span className="text-sm text-ink/60">លេខទូរស័ព្ទ</span>
             <input
-              type="email"
-              placeholder="you@example.com"
+              type="tel"
+              name="phone"
+              required
+              placeholder="០១២ ៣៤៥ ៦៧៨"
               className="w-full mt-2 px-4 py-3 border border-soil-100 rounded-buyer outline-none focus:border-leaf-600"
             />
           </label>
